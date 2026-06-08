@@ -1,0 +1,74 @@
+########### SETUP NEST JS APPLICATION ############
+
+Install Nest JS cli
+> npm install -g @nestjs/cli@10 (recommended)
+
+Check version
+> nest --version
+
+Run Nest cli
+> nest --help
+
+For specific cmd help
+> nest build --help
+
+Creating First Nest Application
+> nest new nest-first --dry-run (Use dry run to preview before file generation.)
+> nest new nest-first@10.0.0
+
+Run Project
+>nest start
+>npm run start:dev (enabled realtime changes)
+
+
+Create module
+>nest generate module users --dry-run
+
+
+Create Controller
+>nest generate controller users --dry-run
+>nest generate --help (to get info about generate cmd)
+>nest generate controller users --no-spec (create controller without test file)
+
+
+DTO
+https://github.com/typestack/class-validator
+https://www.npmjs.com/package/class-validator
+
+class validator
+npm i class-validator@0.14.1
+npm i class-transformer@0.5.1
+npm i @nestjs/mapped-types@2.0.5
+
+create services file with providers folder
+>nest generate service posts/providers/posts --flat --no-spec
+
+
+Api & Code Documentation
+
+Installation
+>npm i @nestjs/swagger@7.3.0
+
+
+>npm i @compodoc/compodoc@1.1.23
+scripts: {
+	"doc": "npx @compodoc/compodoc -p tsconfig.json -s --port 3001 --watch -d ./documentation"
+}
+
+
+xxxxxxxxxxxxxxxxxxxxxxxx
+DB PostgreSQL
+
+
+psql --version
+
+>npm i typeorm@0.3.20
+>npm i @nestjs/typeorm@10.0.2
+>npm i pg@8.11.5
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+nest cofig
+>npm i joi@17.12.2
+>npm i @nestjs/config@3.2.2
+
+https://github.com/devtrio-git/NEST_JS_Backend_Dev_06
