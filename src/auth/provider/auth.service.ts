@@ -6,6 +6,7 @@ import {SignInDto} from "../dtos/sign_in.dto";
 import {JwtService} from "@nestjs/jwt";
 import jwtConfig from "../config/jwt.config";
 import type {ConfigType} from "@nestjs/config";
+import {GenerateTokenProvider} from "./generate-token.provider";
 
 
 @Injectable()
@@ -17,6 +18,7 @@ export class AuthService {
         private readonly jwtService: JwtService,
         @Inject(jwtConfig.KEY)
         private readonly jwtConfiguration : ConfigType<typeof jwtConfig>,
+        private readonly generateTokenProvider: GenerateTokenProvider,
 
     ) {
     }
@@ -29,18 +31,7 @@ export class AuthService {
         if(!user){
             throw new UnauthorizedException("Email or password incorrect");
         }
-        // @ts-ignore
-        const access_token = await this.jwtService.signAsync({
-            sub: user?.id,
-            email: signInDto.email,
-        }, {
-            audience: this.jwtConfiguration.audience,
-            secret: this.jwtConfiguration.secret,
-            issuer: this.jwtConfiguration.issuer,
-            expiresIn: this.jwtConfiguration.accessTokenTTL
-        })
-        return { access_token };
-        return {token: "Dummy_Token"}
+        return this.generateTokenProvider.generateToken(user);
     }
 
     // async signIn(signInDto:SignInDto) {

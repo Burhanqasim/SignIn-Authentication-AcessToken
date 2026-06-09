@@ -2,14 +2,12 @@ import { Body, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Patch, Po
 import { CreateUserDto } from './dtos/create_user.dto';
 import { PatchUserDto } from './dtos/patch-user.dto';
 import { GetUserParamsDto } from './dtos/getUserParams.dto';
-
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { QueueScheduler } from 'rxjs/internal/scheduler/QueueScheduler';
 import { CreateManyUsersDto } from './dtos/create_many_users.dto';
 import {UsersService} from "./provider/users.service";
-// import { AccessTokenGuard } from 'src/auth/gurad/access-token/access-token.guard';
-// import { AuthType } from 'src/auth/enum/auth_type.enum';
-// import { Auth } from 'src/auth/decorator/auth.decorator';
+import {AccessTokenGuard} from "../auth/guard/access_token/access_token.guard";
+import {AuthType} from "../auth/enum/auth_type.enum";
+import {Auth} from "../auth/decorator/auth.decorator";
 
 
 @Controller('users')
@@ -17,12 +15,13 @@ import {UsersService} from "./provider/users.service";
 export class UsersController {
   constructor (private readonly userService: UsersService) {}
 
+  @Auth(AuthType.NONE)
   @Post()
   createUser(@Body() createuserdto: CreateUserDto){
     return this.userService.createUser(createuserdto)
   }
 
-  // @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard)
   @Post("create-many")
   createManyUser(@Body() createManyUserDto: CreateManyUsersDto){
     return this.userService.createManyUsers(createManyUserDto);

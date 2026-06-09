@@ -5,6 +5,8 @@ import {HashProvider} from "./hash.provider";
 import jwtConfig from "../config/jwt.config";
 import type {ConfigType} from "@nestjs/config";
 import {JwtService} from "@nestjs/jwt";
+import {GenerateTokenProvider} from "./generate-token.provider";
+import {User} from "../../users/users.entity";
 
 
 export class SignInProvider{
@@ -15,6 +17,7 @@ export class SignInProvider{
         private readonly jwtService: JwtService,
         @Inject(jwtConfig.KEY)
         private readonly jwtConfiguration : ConfigType<typeof jwtConfig>,
+        private readonly generateTokenProvider: GenerateTokenProvider,
     ) {}
 
     async signIn(signInDto: SignInDto){
@@ -29,17 +32,6 @@ export class SignInProvider{
         if(!isEqual){
             throw new UnauthorizedException("Email or Password incorrect");
         }
-
-        // @ts-ignore
-        const access_token = await this.jwtService.signAsync({
-            sub: user?.id,
-            email: signInDto.email,
-        }, {
-            audience: this.jwtConfiguration.audience,
-            secret: this.jwtConfiguration.secret,
-            issuer: this.jwtConfiguration.issuer,
-            expiresIn: this.jwtConfiguration.accessTokenTTL
-        })
-        return { access_token };
+        return this.generateTokenProvider.generateToken(<User>user);
     }
 }
