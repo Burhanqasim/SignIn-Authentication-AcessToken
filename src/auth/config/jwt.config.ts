@@ -10,4 +10,6 @@ export default registerAs("jwtConfig", ()=> ({
     issuer: process.env.JWT_TOKEN_ISSUANCE,
     accessTokenTTL : parseInt(process.env.JWT_TOKEN_TIME_TTL ?? '3600'),
     accessRefreshTTL: parseInt(process.env.JWT_TOKEN_TIME_TTL ?? '86400'),
+    googleClientId: process.env.GOOGLE_CLIENT_ID,
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
 }))

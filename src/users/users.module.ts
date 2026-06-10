@@ -11,10 +11,12 @@ import {ConfigModule} from "@nestjs/config";
 import profileConfig from "./config/profile.config";
 import jwtConfig from "../auth/config/jwt.config";
 import {JwtModule} from "@nestjs/jwt";
+import { FindOneUserByGoogleIdProvider } from './provider/find_one_user_by_google_id.provider';
+import { CreateGoogleUserProvider } from './provider/create_google_user.provider';
 
 @Module({
   controllers: [UsersController],
-  providers: [CreateUsersProvider, UsersService, UsersCreateManyProvider, FindUserByEmailProvider],
+  providers: [CreateUsersProvider, UsersService, UsersCreateManyProvider, FindUserByEmailProvider, FindOneUserByGoogleIdProvider, CreateGoogleUserProvider],
   exports: [UsersService],
   imports: [
       forwardRef(()=> AuthModule),

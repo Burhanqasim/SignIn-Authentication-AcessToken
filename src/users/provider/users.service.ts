@@ -9,6 +9,9 @@ import {FindUserByEmailProvider} from "./find_user_by_email.provider";
 import profileConfig from "../config/profile.config";
 import ProfileConfig from "../config/profile.config";
 import type {ConfigType} from "@nestjs/config";
+import {FindOneUserByGoogleIdProvider} from "./find_one_user_by_google_id.provider";
+import {CreateGoogleUserProvider} from "./create_google_user.provider";
+import {IGoogleUser} from "../interface/google_user.interface";
 
 @Injectable()
 export class UsersService {
@@ -18,9 +21,11 @@ export class UsersService {
         private  readonly  findUserByEmailProvider : FindUserByEmailProvider,
         @Inject(profileConfig.KEY)
         private readonly configType: ConfigType<typeof ProfileConfig>,
-
         @Inject(forwardRef(()=> AuthService))
         private  readonly authService: AuthService,
+        private readonly findOneUserByGoogleIdProvider: FindOneUserByGoogleIdProvider,
+        private readonly createGoogleUserProvider: CreateGoogleUserProvider,
+
 
 
     ) {
@@ -36,7 +41,6 @@ export class UsersService {
 
     async createManyUsers(createManyUsersDto: CreateManyUsersDto){
         return this.usersCreateManyProvider.createManyUsers(createManyUsersDto);
-
     }
 
     findAll(getUserParamsDto: GetUserParamsDto, size: number, page: number) {
@@ -52,6 +56,14 @@ export class UsersService {
             {"id": 2, "name" : "Kamran", "email": "kamran@gmail.com"},
             {"id": 3, "name" : "Zafar" , "email": "zafar@gmail.com" },
         ]
+    }
+
+    async findOneByGoogleId(googleId: string) {
+        return await this.findOneUserByGoogleIdProvider.findOneByGoogleId(googleId);
+    }
+
+    async createGoogleUser(googleUser: IGoogleUser) {
+        return await this.createGoogleUserProvider.createGoogleUser(googleUser);
     }
 
 

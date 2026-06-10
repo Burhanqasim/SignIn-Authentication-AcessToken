@@ -71,4 +71,9 @@ nest cofig
 >npm i joi@17.12.2
 >npm i @nestjs/config@3.2.2
 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+google auth
+npm i google-auth-library@9.11.0
+
+
 https://github.com/devtrio-git/NEST_JS_Backend_Dev_06
